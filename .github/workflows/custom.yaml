@@ -7,9 +7,9 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   workflow_dispatch:
   push:
-    branches: [ "main" ]
+    branches: [ "build" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "build" ]
 
 jobs:
   docker:
@@ -37,4 +37,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64
-          tags: ${{ secrets.DOCKER_USERNAME }}/pyfaceserve:v1.0.0
+          tags: ${{ secrets.DOCKER_USERNAME }}/windmill-worker:v1.0.0
