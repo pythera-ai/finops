@@ -1,6 +1,8 @@
 summary: ''
 display_name: finnew
 extra_perms:
+  u/hungnguyen: true
   u/hungnguyen131002: true
 owners:
   - u/hungnguyen131002
+  - u/hungnguyen
