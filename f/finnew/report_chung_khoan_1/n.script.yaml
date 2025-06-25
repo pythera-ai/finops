@@ -1,0 +1,11 @@
+summary: ''
+description: >-
+  This script was edited in place of flow f/finnew/report_chung_khoan_1  by
+  hungnguyen.
+lock: '!inline f/finnew/report_chung_khoan_1/n.script.lock'
+kind: script
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  properties: {}
+  required: []
