@@ -1,0 +1,224 @@
+summary: Report chứng khoán 2
+description: ''
+value:
+  modules:
+    - id: a
+      summary: Download CSV
+      value:
+        type: rawscript
+        content: '!inline download_csv.inline_script.py'
+        input_transforms:
+          aws_access_key:
+            type: javascript
+            expr: flow_input.aws_access_key
+          aws_secret_key:
+            type: javascript
+            expr: flow_input.aws_secret_key
+          bucket_name:
+            type: javascript
+            expr: flow_input.bucket_name
+          object_key:
+            type: javascript
+            expr: flow_input.object_key
+          region:
+            type: javascript
+            expr: flow_input.region
+        lock: '!inline download_csv.inline_script.lock'
+        language: python3
+    - id: b
+      summary: Parsing to Dict
+      value:
+        type: rawscript
+        content: '!inline parsing_to_dict.inline_script.py'
+        input_transforms:
+          download_result:
+            type: javascript
+            expr: results.a
+        lock: '!inline parsing_to_dict.inline_script.lock'
+        language: python3
+    - id: f
+      summary: Validate
+      value:
+        type: rawscript
+        content: '!inline validate.inline_script.py'
+        input_transforms:
+          raw_market_data:
+            type: javascript
+            expr: results.b
+        lock: '!inline validate.inline_script.lock'
+        language: python3
+    - id: k
+      summary: ''
+      value:
+        type: branchall
+        branches:
+          - modules:
+              - id: h
+                summary: Top3 Gain/Lose
+                value:
+                  type: rawscript
+                  content: '!inline top3_gain/lose.inline_script.py'
+                  input_transforms:
+                    market_data:
+                      type: javascript
+                      expr: results.f
+                    top_count:
+                      type: static
+                      value: 3
+                  lock: '!inline top3_gain/lose.inline_script.lock'
+                  language: python3
+            expr: ''
+            parallel: true
+            skip_failure: false
+          - summary: ''
+            modules:
+              - id: g
+                summary: AI Nhận định
+                value:
+                  type: rawscript
+                  content: '!inline ai_nhận_định.inline_script.py'
+                  input_transforms:
+                    analysis_type:
+                      type: static
+                      value: standard
+                    gemini_api_key:
+                      type: static
+                      value: AIzaSyB8wL2yAtxcVa2kQRjStuEhJVBPQn6ZBvw
+                    market_data:
+                      type: javascript
+                      expr: results.f
+                  lock: '!inline ai_nhận_định.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: false
+        parallel: true
+    - id: m
+      summary: ''
+      value:
+        type: branchone
+        branches:
+          - summary: ''
+            modules:
+              - id: i
+                summary: Message Template
+                value:
+                  type: rawscript
+                  content: '!inline message_template.inline_script.py'
+                  input_transforms:
+                    ai_analysis:
+                      type: javascript
+                      expr: results.g
+                    market_data:
+                      type: javascript
+                      expr: results.f
+                    report_style:
+                      type: static
+                      value: telegram
+                    stock_indices:
+                      type: javascript
+                      expr: results.h
+                  lock: '!inline message_template.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: true
+        default:
+          - id: j
+            summary: PDF Template
+            value:
+              type: rawscript
+              content: '!inline pdf_template.inline_script.py'
+              input_transforms:
+                ai_analysis:
+                  type: javascript
+                  expr: results.g
+                aws_access_key_id:
+                  type: javascript
+                  expr: flow_input.aws_access_key
+                aws_region:
+                  type: javascript
+                  expr: flow_input.region
+                aws_secret_access_key:
+                  type: javascript
+                  expr: flow_input.aws_secret_key
+                market_data:
+                  type: javascript
+                  expr: results.f
+                report_title:
+                  type: static
+                  value: Báo cáo thị trường chứng khoán
+                s3_bucket:
+                  type: javascript
+                  value: your-bucket-name
+                  expr: flow_input.bucket_name
+                stock_indices:
+                  type: javascript
+                  expr: results.h
+              lock: '!inline pdf_template.inline_script.lock'
+              language: python3
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  order:
+    - aws_access_key
+    - aws_secret_key
+    - bucket_name
+    - object_key
+    - region
+    - gemini_api_key
+    - type_message
+  properties:
+    aws_access_key:
+      type: string
+      description: ''
+      default: ''
+    aws_secret_key:
+      type: string
+      description: ''
+      default: ''
+    bucket_name:
+      type: string
+      description: ''
+      default: ''
+    gemini_api_key:
+      type: string
+      description: ''
+      default: ''
+    object_key:
+      type: string
+      description: ''
+      default: ''
+    region:
+      type: string
+      description: ''
+      default: ''
+    type_message:
+      type: object
+      description: ''
+      oneOf:
+        - type: object
+          properties:
+            label:
+              type: string
+              enum:
+                - Option 1
+            property_1:
+              type: string
+          title: Option 1
+        - type: object
+          properties:
+            label:
+              type: string
+              enum:
+                - Option 2
+            property_2:
+              type: string
+          title: Option 2
+        - type: object
+          properties: {}
+          title: Option3
+        - type: object
+          properties: {}
+          title: Option4
+  required: []
