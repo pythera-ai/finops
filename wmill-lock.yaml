@@ -1,5 +1,18 @@
 locks:
   f/finnew/example_script: f070e23f238fbf6377f83109b2f4be49bb1fa3a4fecf65b56c66f6c7520100c6
+  f/finnew/hands_down_flow.flow:
+    __flow_hash: 116dfd72e17b72fae02c6a18b0de094843b0e9baaf8f0d596a519e637aca840d
+    create_csv_file.inline_script.py: 131ac61d41a666cb83656e0807cd1e0e3a0fcc1ac2b2db7494b9f4cbaa205473
+    index_fluctuation.inline_script.py: 74ed5a2a7fc46103fa82e91fe5e3981bc6be498573b8e9ebbb591c1a54f59648
+    index_summary.inline_script.py: a2863b47389d40ff1397f4d299b740c240d82ad2eed7b16b30e09dff80b2fef6
+    inline_script_0.inline_script.py: 90cb5facceac545de9398b886be71478291d4a798eef8471f6ec17ae36d5328b
+    khoi_ngoai.inline_script.py: 0bf15c2d821c8aac634f5eb62db37064fc40566fd51482c2cf359363e42695ee
+    khoi_tu_doanh.inline_script.py: 7eb0e1b9f08f4e5d5d7b19509644b0110855cdb1fb0cc7cb10b9b7855363bb16
+    merge_input.inline_script.py: 0a5ac4c11652f142261747b8626b1afd1dacf1cecdfeb92088007a2802f488bf
+    save_file_png.inline_script.py: 3cdc357a4f44c689964def6bf1bde653df2b66ca0c5eca6a8d36bce1ef1ee9e9
+    top_5_`changepercent`_sector.inline_script.py: 06c28048936b21f8a67d323c342fb869c6ea7fc204e9acd96e1662e8b2f468dd
+    top_interested.inline_script.py: 758e296fe46f6fe91347b29d0ee800b672e48049694eab300b5f8be289a3d8a0
+    top_netforeign.inline_script.py: 7699a37973a32ef8ef67e9fee61760a568e8507043e19e7a0a5e30f6deb46816
   f/finnew/report_chung_khoan_1.flow:
     __flow_hash: 263def68adc8686f1b6f8a91ed7e3cf5d8ac2858bcaf47144de6b92ee9143390
     index_summary.inline_script.py: 39fc36cf22bcd82b09b60d61e9f1d7a7e755fd27630353e82174457e175bb21b

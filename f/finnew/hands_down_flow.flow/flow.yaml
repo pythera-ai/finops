@@ -1,0 +1,259 @@
+summary: Report Chung Khoan 1 - UPDATE 3/7
+description: ''
+value:
+  modules:
+    - id: b
+      summary: ''
+      value:
+        type: branchall
+        branches:
+          - summary: Top sector
+            modules:
+              - id: c
+                summary: Top 5 `changePercent` Sector
+                value:
+                  type: rawscript
+                  content: '!inline top_5_`changepercent`_sector.inline_script.py'
+                  input_transforms: {}
+                  lock: '!inline top_5_`changepercent`_sector.inline_script.lock'
+                  language: python3
+            expr: ''
+            parallel: true
+            skip_failure: false
+          - summary: ''
+            modules:
+              - id: d
+                summary: top_netforeign
+                value:
+                  type: rawscript
+                  content: '!inline top_netforeign.inline_script.py'
+                  input_transforms: {}
+                  lock: '!inline top_netforeign.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: false
+          - summary: ''
+            modules:
+              - id: e
+                summary: top_interested
+                value:
+                  type: rawscript
+                  content: '!inline top_interested.inline_script.py'
+                  input_transforms: {}
+                  lock: '!inline top_interested.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: true
+          - summary: ''
+            modules:
+              - id: f
+                summary: khoi_tu_doanh
+                value:
+                  type: rawscript
+                  content: '!inline khoi_tu_doanh.inline_script.py'
+                  input_transforms:
+                    stock_market:
+                      type: javascript
+                      value: ''
+                      expr: flow_input.stock_market
+                  lock: '!inline khoi_tu_doanh.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: true
+          - summary: ''
+            modules:
+              - id: g
+                summary: Khoi_ngoai
+                value:
+                  type: rawscript
+                  content: '!inline khoi_ngoai.inline_script.py'
+                  input_transforms:
+                    stock_market:
+                      type: javascript
+                      value: ''
+                      expr: flow_input.stock_market
+                  lock: '!inline khoi_ngoai.inline_script.lock'
+                  concurrency_time_window_s: 0
+                  language: python3
+                continue_on_error: false
+            expr: 'false'
+            parallel: true
+            skip_failure: true
+          - summary: ''
+            modules:
+              - id: h
+                summary: index summary
+                value:
+                  type: rawscript
+                  content: '!inline index_summary.inline_script.py'
+                  input_transforms: {}
+                  lock: '!inline index_summary.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: true
+          - summary: ''
+            modules:
+              - id: i
+                summary: index_fluctuation
+                value:
+                  type: rawscript
+                  content: '!inline index_fluctuation.inline_script.py'
+                  input_transforms:
+                    stock_market:
+                      type: javascript
+                      value: ''
+                      expr: flow_input.stock_market
+                  lock: '!inline index_fluctuation.inline_script.lock'
+                  language: python3
+                continue_on_error: false
+            expr: 'false'
+            parallel: true
+            skip_failure: true
+        parallel: true
+    - id: m
+      summary: Merge input
+      value:
+        type: rawscript
+        content: '!inline merge_input.inline_script.py'
+        input_transforms:
+          args:
+            type: javascript
+            expr: >-
+              [results.i, results.h, results.g, results.f, results.e, results.d,
+              results.c]
+        lock: '!inline merge_input.inline_script.lock'
+        language: python3
+    - id: l
+      summary: Create csv file
+      value:
+        type: rawscript
+        content: '!inline create_csv_file.inline_script.py'
+        input_transforms:
+          aws_access_key_id:
+            type: javascript
+            expr: flow_input.aws_access_key_id
+          aws_secret_access_key:
+            type: javascript
+            expr: flow_input.aws_secret_access_key
+          data:
+            type: javascript
+            expr: results.m
+          s3_bucket_name:
+            type: javascript
+            expr: flow_input.s3_bucket_name
+          s3_csv_key:
+            type: javascript
+            expr: flow_input.s3_csv_key
+          s3_region:
+            type: javascript
+            expr: flow_input.s3_region
+        lock: '!inline create_csv_file.inline_script.lock'
+        language: python3
+    - id: o
+      summary: ''
+      value:
+        type: branchall
+        branches:
+          - modules:
+              - id: j
+                summary: save file PNG
+                value:
+                  type: rawscript
+                  content: '!inline save_file_png.inline_script.py'
+                  input_transforms:
+                    aws_access_key_id:
+                      type: javascript
+                      expr: flow_input.aws_access_key_id
+                    aws_secret_access_key:
+                      type: javascript
+                      expr: flow_input.aws_secret_access_key
+                    csv_s3_key:
+                      type: javascript
+                      expr: flow_input.s3_csv_key
+                    png_s3_key:
+                      type: static
+                      value: stock_summary_generated.png
+                    region_name:
+                      type: javascript
+                      expr: flow_input.s3_region
+                    s3_bucket_name:
+                      type: javascript
+                      expr: flow_input.s3_bucket_name
+                  lock: '!inline save_file_png.inline_script.lock'
+                  language: python3
+            expr: ''
+            parallel: true
+            skip_failure: false
+          - summary: ''
+            modules:
+              - id: 'n'
+                value:
+                  type: rawscript
+                  content: '!inline inline_script_0.inline_script.py'
+                  input_transforms:
+                    aws_access_key_id:
+                      type: javascript
+                      expr: flow_input.aws_access_key_id
+                    aws_secret_access_key:
+                      type: javascript
+                      expr: flow_input.aws_secret_access_key
+                    input_s3_bucket:
+                      type: javascript
+                      expr: flow_input.s3_bucket_name
+                    input_s3_key:
+                      type: javascript
+                      expr: flow_input.s3_csv_key
+                    output_s3_bucket:
+                      type: javascript
+                      expr: flow_input.s3_bucket_name
+                    s3_region:
+                      type: javascript
+                      expr: flow_input.s3_region
+                  lock: '!inline inline_script_0.inline_script.lock'
+                  language: python3
+            expr: 'false'
+            parallel: true
+            skip_failure: false
+        parallel: true
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  order:
+    - stock_market
+    - s3_bucket_name
+    - s3_csv_key
+    - s3_region
+    - aws_access_key_id
+    - aws_secret_access_key
+  properties:
+    aws_access_key_id:
+      type: string
+      description: ''
+      default: ''
+    aws_secret_access_key:
+      type: string
+      description: ''
+      default: ''
+    s3_bucket_name:
+      type: string
+      description: ''
+      default: ''
+    s3_csv_key:
+      type: string
+      description: ''
+      default: ''
+    s3_region:
+      type: string
+      description: ''
+      default: ''
+    stock_market:
+      type: string
+      description: ''
+      default: HNX
+      nullable: false
+  required:
+    - stock_market
