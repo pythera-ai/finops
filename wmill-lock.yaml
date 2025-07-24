@@ -1,4 +1,23 @@
 locks:
+  f/finnew/bonny_flow.flow:
+    __flow_hash: e88d85e49294b8fbdd2e23eef0f4025f43aaece118a249fff20dd49175d7dc7b
+    check_api_health.inline_script.py: acb83b12dcffae7f29b8f8ce37d313ad3be35eecd4e60d538f5ac99de2fe094a
+    csv_report.inline_script.py: 1807b762b2d900f9f7074ee87a877419816f38180856eed42575f10f71e87752
+    download_last_day's_csv.inline_script.py: dc1bb505cd45603014fec13bd2652fe8a1577315122b3c1210e71d09b7972fcf
+    dump.inline_script.py: 080d8d0249914c710a6c871cde21feea22c1933f978945a8d370d46d0bbbd908
+    excel_report.inline_script.py: d7c7fca5db8763049e66cc7933387bc15426e37110292615e9985b1707e230ce
+    fetch_index_fluctuation.inline_script.py: 227d5a53aba892807b92da8982f1794247258cf9bc5cdc5f275fcbf8e21c93b3
+    fetch_index_summary.inline_script.py: b6dac513a13c62874fc096bda7207c06a8d76a1576256e29a96695ed3f3b07ad
+    fetch_interested_stocks.inline_script.py: 1f152c65c94ed8bf9fea5bf565aa5283d84acc7c4383098e9e2460c38af98201
+    fetch_khoi_ngoai.inline_script.py: 1d8ca3ff5a07654770c8da63b73188f48f3adaa3ab8289344d99893c6dd12791
+    fetch_khoi_tu_doanh.inline_script.py: dfb7ceb36e9e12b66cd5dd11ccf2092897775961d463c11d5a10b2f17a7fea2c
+    fetch_netforeign_data.inline_script.py: 06511cbe36673e1ca85d29a5c424c4d4ec3049b5e41f2b97b7589603fc2dec82
+    fetch_sectors_data.inline_script.py: 0d571942de9a4fd323e118dcd430d2d68a7e231b3b5b887563d9f7a303cc0649
+    inline_script_0.inline_script.py: 2b3bbbef6808429f78b0c74d7c2afad3307e286a8bf3bc5e1e5a5814b490e7c6
+    inline_script_1.inline_script.py: 9dfd4754470f070638e19d1f01f2ef3e4804472aa0335f7d52a1286ba677e293
+    inline_script_2.inline_script.py: e38aa9dcd3d87f5ddbdae4cda77f1c4a53dc96707329b962c6fb57dab02bb2be
+    validate_data_quality.inline_script.py: be6d611ba6d00b893c4972a940fb6efb57c2515ed49e7f6e5b2c647e4141a601
+    validated_config.inline_script.py: 50acfc2a30e7a2f9d35175c1920e86d94f96da7c1e5a019b3fefe15ec6d7266c
   f/finnew/example_script: f070e23f238fbf6377f83109b2f4be49bb1fa3a4fecf65b56c66f6c7520100c6
   f/finnew/hands_down_flow.flow:
     __flow_hash: 116dfd72e17b72fae02c6a18b0de094843b0e9baaf8f0d596a519e637aca840d
@@ -13,6 +32,15 @@ locks:
     top_5_`changepercent`_sector.inline_script.py: 06c28048936b21f8a67d323c342fb869c6ea7fc204e9acd96e1662e8b2f468dd
     top_interested.inline_script.py: 758e296fe46f6fe91347b29d0ee800b672e48049694eab300b5f8be289a3d8a0
     top_netforeign.inline_script.py: 7699a37973a32ef8ef67e9fee61760a568e8507043e19e7a0a5e30f6deb46816
+  f/finnew/polite_flow.flow:
+    __flow_hash: 9ae1b5c11da5e06729cf4e7011df4697e9cc746aed2b9cbde85fbc173a962f84
+    generate_targeted_ai_commentary.inline_script.py: 8b848d45aae0c0442fb0f98ef410ea8420a1f73148cf9a68677f6dce783309dc
+    inline_script_0.inline_script.py: 3b5384886adbc65dfa3f8f083a5d28322f7be0eb1dc68fa17612710b9c6b0dab
+    pdf_template.inline_script.py: a394b2957fab8160657faa0f1a5e889267fe94ebbbe5ba5162fc386401adc39c
+    'step_1:_download_csv_from_s3.inline_script.py': d42f24fe79ca8b28e3555605e1342bad82b536551c73950833c8884dd9bb2655
+    'step_2:_parse_csv_to_structured_data.inline_script.py': e4f797b9a2056efd265d36ad25708ab8ffc4cd062b902a19be02159a84f389fd
+    'step_3:_filter_data_for_analysis.inline_script.py': 54d9a036211ef33c8e583c96b56cfa131f0488e546ec51703b4a1d85ce546044
+    text_message_output.inline_script.py: fd90b24452b88881af6ff245a8e3f7e3e0c4027b19c7d31b8e4c78d99740d29c
   f/finnew/report_chung_khoan_1.flow:
     __flow_hash: 263def68adc8686f1b6f8a91ed7e3cf5d8ac2858bcaf47144de6b92ee9143390
     index_summary.inline_script.py: 39fc36cf22bcd82b09b60d61e9f1d7a7e755fd27630353e82174457e175bb21b
@@ -27,3 +55,30 @@ locks:
     use_csv_file.inline_script.py: 4b12793a9b793e64d3c6a2a885063cc10368191de984c085897aecb1369d874e
   f/finnew/report_chung_khoan_1/a: 86122e71de18ff8fa6e5720ed36d53334bb0d5731347b8f5461743b5a77d632c
   f/finnew/report_chung_khoan_1/n: 4ae4123e22b9955b5fd1b7d526d584db4e569ee59127c37c32d2cf10508def00
+  f/finnew/stock_analyze_summary.flow:
+    __flow_hash: 323d368d783cd90c0d0f36bafa10f730708041b06d76d235bd81bfca2bf6c0f8
+    check_1.inline_script.py: 98325751b1ffc971487dff2a8769c5320330657832c67a56ddd5c16de15c6013
+    check_2.inline_script.py: 354b9163078396516220e4412db9cbfc0af2a7b886d0f287bb858483a7dfcb1f
+    check_4.inline_script.py: 43b82ba34952a8b7e2dc5075464d4248a8a40c781ca7a671154b17fbc0969f1f
+    check.inline_script.py: 16e0680e445a7294073c56648cba4b39823f9914cb7a471a1244b89e08f77dd7
+    chunking_3.inline_script.py: fcf3a0f4b15adbf95f676b577b6ed415310172d27de364424853133982c27545
+    chunking.inline_script.py: 81c091be36a965d76e7f84748ffd69aa264212074e1b4f32372de6423f51a576
+    condition.inline_script.py: 5055f7fd5bb0239f36d6a4e5959ab99087aaa08030f182ba1c86bba95a1ec2b5
+    crawl_stock_news.inline_script.py: 8604991fdf43e3200d8c78775eb8ffe9d87727b1d457e15bd1469de5226613a4
+    embedding_context.inline_script.py: 4adde18786a9c1d3b46c1322a23ec4459468b2c0c61129fb0a15dfba79518f46
+    embedding_query.inline_script.py: 4adde18786a9c1d3b46c1322a23ec4459468b2c0c61129fb0a15dfba79518f46
+    extract_-_markdown_formating.inline_script.py: 2f62951257734d44f716c117f8500e84a98f045dde41fcf59864671ceea7bd13
+    filtering_and_reranking.inline_script.py: 81b25cc7e46b382f436ce88e2036cf878994eefb21182d2429d484e821d68c27
+    llm_3_-_build_template_-_general_analyze.inline_script.py: e908e879fb832106d747338ba4dbd94f10472d97518f5a96d755d535ca21756e
+    llm1_-_build_template_-_summarize.inline_script.py: 318f56f9648f839d052d6239ed83dee65f25bc2b6127977ce3cfd35b38a260b2
+    llm2_-_build_template_-_evaluate_stocks.inline_script.py: b9653d92a225dd3b42ccb4124090483b5b6577f2bc3f2e7fb23bd18d564921ba
+    mapping_topic.inline_script.py: 7cdc4a40ada3b3a2fcd97064242104cca79b8fbeeddb98b3a17493661a5373a0
+    reprocess_chunks.inline_script.py: 005a4cc71b9b9dca90cff633ba4a72de2fb216260b7b854f70f23496155f593b
+  f/finnew/sweet_flow.flow:
+    __flow_hash: d8cb86939ac6f1f4085dc6816d0ba744a4a95123dc046f72560919bc3899448f
+    ai_nhận_định.inline_script.py: c955cb4404b0092eab9c3c6d4b4a3c07a0a6676400aba390c99cafddbc6671b1
+    download_csv.inline_script.py: 16a748ad0cdde4bbecbdd86f14cee9eb3276336ea735e0951ca5c43017839beb
+    message_template.inline_script.py: f303845fc6f706c0656be57ec495b6b7af9f536d3b4e39f159046b596221668a
+    parsing_to_dict.inline_script.py: 52c1104dcd5c58457e183095089165feeb838de345dd7cf8e2bba36505962288
+    pdf_template.inline_script.py: d921929a2a6b3521770a8c2cf412dc9d5f8eaae5166a913a1533e65d7960f8bf
+    validate.inline_script.py: 2a1138d8d2bc85c82de174036fd5f95eb8e6b7a00f87c259ac51c0d7a2d53488

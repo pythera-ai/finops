@@ -1,0 +1,21 @@
+# py: 3.11
+beautifulsoup4==4.13.4
+boto3==1.39.7
+botocore==1.39.7
+certifi==2025.7.14
+charset-normalizer==3.4.2
+filelock==3.18.0
+gdown==5.2.0
+idna==3.10
+jmespath==1.0.1
+pillow==11.3.0
+pysocks==1.7.1
+python-dateutil==2.9.0.post0
+reportlab==4.4.2
+requests==2.32.4
+s3transfer==0.13.0
+six==1.17.0
+soupsieve==2.7
+tqdm==4.67.1
+typing-extensions==4.14.1
+urllib3==2.5.0

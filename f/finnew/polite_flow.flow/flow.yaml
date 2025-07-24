@@ -1,0 +1,273 @@
+summary: Dynamic Stock Market Analysis Tool (v2) - 15/7
+description: >-
+  Analyzes stock market data from S3. The user can choose a specific index
+  (e.g., VNINDEX, HNXIndex) or all indices for analysis. The flow generates a
+  targeted AI commentary and a report in the selected format (PDF, Telegram,
+  etc.).
+value:
+  modules:
+    - id: a
+      summary: 'Step 1: Download CSV from S3'
+      value:
+        type: rawscript
+        content: '!inline step_1:_download_csv_from_s3.inline_script.py'
+        input_transforms:
+          aws_access_key:
+            type: javascript
+            expr: flow_input.aws_access_key
+          aws_secret_key:
+            type: javascript
+            expr: flow_input.aws_secret_key
+          bucket_name:
+            type: javascript
+            expr: flow_input.bucket_name
+          date_offset:
+            type: javascript
+            expr: flow_input.day_offset
+          object_key_name:
+            type: javascript
+            expr: flow_input.object_key_name
+          region:
+            type: javascript
+            expr: flow_input.region
+        lock: '!inline step_1:_download_csv_from_s3.inline_script.lock'
+        language: python3
+    - id: b
+      summary: 'Step 2: Parse CSV to Structured Data'
+      value:
+        type: rawscript
+        content: '!inline step_2:_parse_csv_to_structured_data.inline_script.py'
+        input_transforms:
+          download_result:
+            type: javascript
+            expr: results.a
+        lock: '!inline step_2:_parse_csv_to_structured_data.inline_script.lock'
+        language: python3
+    - id: f
+      summary: 'Step 3: Filter Data for Analysis'
+      value:
+        type: rawscript
+        content: '!inline step_3:_filter_data_for_analysis.inline_script.py'
+        input_transforms:
+          analysis_target_index:
+            type: javascript
+            expr: flow_input.analysis_target_index
+          raw_market_data:
+            type: javascript
+            expr: results.b
+        lock: '!inline step_3:_filter_data_for_analysis.inline_script.lock'
+        language: python3
+    - id: k
+      summary: 'Step 4: Perform Parallel Analysis'
+      value:
+        type: branchall
+        branches:
+          - modules:
+              - id: g
+                summary: Extract Top/Bottom N Indices
+                value:
+                  type: rawscript
+                  content: '!inline extract_top/bottom_n_indices.inline_script.py'
+                  input_transforms:
+                    market_data:
+                      type: javascript
+                      expr: results.f
+                    top_count:
+                      type: static
+                  lock: '!inline extract_top/bottom_n_indices.inline_script.lock'
+                  language: python3
+            expr: ''
+            parallel: true
+            skip_failure: false
+          - summary: Parallel Analysis
+            modules:
+              - id: h
+                summary: Generate Targeted AI Commentary
+                value:
+                  type: rawscript
+                  content: '!inline generate_targeted_ai_commentary.inline_script.py'
+                  input_transforms:
+                    analysis_type:
+                      type: static
+                      value: standard
+                    gemini_api_key:
+                      type: javascript
+                      expr: flow_input.gemini_api_key
+                    prepared_data:
+                      type: javascript
+                      expr: results.f
+                  lock: '!inline generate_targeted_ai_commentary.inline_script.lock'
+                  language: python3
+            expr: flow_input.enable_ai_analysis
+            parallel: true
+            skip_failure: true
+        parallel: true
+    - id: l
+      summary: 'Step 5: Generate Report Output'
+      value:
+        type: branchone
+        branches:
+          - summary: Generate Text/Markdown Message
+            modules:
+              - id: m
+                summary: Text Message Output
+                value:
+                  type: rawscript
+                  content: '!inline text_message_output.inline_script.py'
+                  input_transforms:
+                    ai_analysis:
+                      type: javascript
+                      expr: results.h
+                    market_data:
+                      type: javascript
+                      expr: results.f
+                    report_style:
+                      type: javascript
+                      expr: flow_input.report_format
+                    stock_indices:
+                      type: javascript
+                      expr: results.g
+                  lock: '!inline text_message_output.inline_script.lock'
+                  language: python3
+            expr: flow_input.report_format != "pdf"
+            parallel: true
+            skip_failure: true
+        default:
+          - id: 'n'
+            summary: PDF Template
+            value:
+              type: rawscript
+              content: '!inline pdf_template.inline_script.py'
+              input_transforms:
+                ai_analysis:
+                  type: javascript
+                  expr: results.g
+                aws_access_key_id:
+                  type: javascript
+                  expr: flow_input.aws_access_key
+                aws_region:
+                  type: javascript
+                  expr: flow_input.region
+                aws_secret_access_key:
+                  type: javascript
+                  expr: flow_input.aws_secret_key
+                market_data:
+                  type: javascript
+                  expr: results.f
+                report_title:
+                  type: javascript
+                  expr: flow_input.report_title
+                s3_bucket:
+                  type: javascript
+                  expr: flow_input.bucket_name
+                stock_indices:
+                  type: javascript
+                  expr: results.h
+              lock: '!inline pdf_template.inline_script.lock'
+              language: python3
+    - id: o
+      value:
+        type: rawscript
+        content: '!inline inline_script_0.inline_script.py'
+        input_transforms:
+          x:
+            type: javascript
+            expr: results.m
+        lock: '!inline inline_script_0.inline_script.lock'
+        language: python3
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  order:
+    - analysis_target_index
+    - bucket_name
+    - object_key_name
+    - day_offset
+    - region
+    - report_format
+    - report_title
+    - top_n_indices
+    - enable_ai_analysis
+    - analysis_type
+    - aws_access_key
+    - aws_secret_key
+    - gemini_api_key
+  properties:
+    analysis_target_index:
+      type: string
+      description: 'Select the index to analyze, or ''ALL'' for a full market overview.'
+      default: ALL
+      enum:
+        - ALL
+        - VNINDEX
+        - VN30
+        - HNXIndex
+        - HNX30
+        - UPCOM
+    analysis_type:
+      type: string
+      description: The level of detail for the AI-generated analysis.
+      default: standard
+      enum:
+        - standard
+        - detailed
+        - brief
+    aws_access_key:
+      type: string
+      description: AWS Access Key ID. Recommended to use Windmill Secrets.
+      default: ''
+      format: password
+    aws_secret_key:
+      type: string
+      description: AWS Secret Access Key. Recommended to use Windmill Secrets.
+      default: ''
+      format: password
+    bucket_name:
+      type: string
+      description: The S3 bucket where the source CSV is located.
+      default: your-s3-bucket-name
+    day_offset:
+      type: integer
+      description: ''
+      default: null
+      placeholder: '0'
+    enable_ai_analysis:
+      type: boolean
+      description: Set to true to enable market commentary generation using Gemini AI.
+      default: true
+    gemini_api_key:
+      type: string
+      description: API Key for Google Gemini. Recommended to use Windmill Secrets.
+      default: ''
+      format: password
+    object_key_name:
+      type: string
+      description: The full path and file name of the source CSV in the S3 bucket.
+      default: reports/stock_summary.csv
+    region:
+      type: string
+      description: The AWS region of the S3 bucket.
+      default: ap-southeast-2
+    report_format:
+      type: string
+      description: The desired output format for the final report.
+      default: telegram
+      enum:
+        - pdf
+        - telegram
+        - web
+        - email
+    report_title:
+      type: string
+      description: The title for the generated PDF report.
+      default: Báo cáo thị trường chứng khoán
+    top_n_indices:
+      type: integer
+      description: The number of top gaining/losing indices to include in the report.
+      default: 3
+  required:
+    - aws_access_key
+    - aws_secret_key
+    - gemini_api_key
+    - bucket_name
+    - object_key_name
