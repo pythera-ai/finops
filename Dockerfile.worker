@@ -1,7 +1,7 @@
 FROM ghcr.io/windmill-labs/windmill:main
 
 RUN uv tool install playwright
-RUN playwright install
+RUN playwright install chromium
 RUN playwright install-deps
 
 CMD ["windmill"]
