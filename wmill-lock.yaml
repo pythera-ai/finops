@@ -1,6 +1,18 @@
 locks:
+  f/agentic/lumir_v0.flow:
+    __flow_hash: dddbf509279c67d3d8a0833ac8fc33142b956c592b88a5585bdd2310c78e14ca
+    general_agent.inline_script.py: b035a6a19143e462835084f1f02f8e571f6a48eb6a00ef3116345325560af498
+    get_user_history.inline_script.py: 8b5289726b1854e2f615a34588d977f215505f942384af206232c13b70b1af35
+    memory_agent_select_action.inline_script.py: fc44c6a139236cbd7dccf8058100b4c54d3972876fd8635d42b1308aa625627a
+    memory_check_agent.inline_script.py: 3a5ad7407d7aabbd29c49d205f4f2714a15d99f92e1da10c1ed8a8950991dd3d
+    numerology_agent_answer.inline_script.py: 11350a08714e8e11552394de29f2705618e1e31bb1c777d3e3a97eee01add0fe
+    output.inline_script.py: bb3a04eca831038cf4fb5b0c37dd68edfedbbd94e9899c7f79b717aad7eff5d8
+    question_analyzer.inline_script.py: d30ebdca352b562836bac0b9170f3e1e8ef8af8008e892ab631b0e44e50602ca
+    synthesize_agent.inline_script.py: 44fe14671df9f2ed62650cd3eb9eec1b5bf4412ff80bacaa2d996a39b96d105d
+    trading_agent_answer.inline_script.py: 1452e3af9a1144f47d2f0f0bbb1cb4b6ac47b28b9dc6a6c65fc33a9f25d93298
+    update_memory.inline_script.py: bf76c7f25cca855019f4c777d3e750d7ea5c190be8b95abbba5f6f495d031ca3
   f/finnew/bonny_flow.flow:
-    __flow_hash: e88d85e49294b8fbdd2e23eef0f4025f43aaece118a249fff20dd49175d7dc7b
+    __flow_hash: 425c2eb9e2bdc096b4b0742a272c6e54e7524767b1291f5f6ea94ab2df36829b
     check_api_health.inline_script.py: acb83b12dcffae7f29b8f8ce37d313ad3be35eecd4e60d538f5ac99de2fe094a
     csv_report.inline_script.py: 1807b762b2d900f9f7074ee87a877419816f38180856eed42575f10f71e87752
     download_last_day's_csv.inline_script.py: dc1bb505cd45603014fec13bd2652fe8a1577315122b3c1210e71d09b7972fcf
@@ -14,7 +26,7 @@ locks:
     fetch_netforeign_data.inline_script.py: 06511cbe36673e1ca85d29a5c424c4d4ec3049b5e41f2b97b7589603fc2dec82
     fetch_sectors_data.inline_script.py: 0d571942de9a4fd323e118dcd430d2d68a7e231b3b5b887563d9f7a303cc0649
     inline_script_0.inline_script.py: 2b3bbbef6808429f78b0c74d7c2afad3307e286a8bf3bc5e1e5a5814b490e7c6
-    inline_script_1.inline_script.py: 9dfd4754470f070638e19d1f01f2ef3e4804472aa0335f7d52a1286ba677e293
+    inline_script_1.inline_script.py: e38aa9dcd3d87f5ddbdae4cda77f1c4a53dc96707329b962c6fb57dab02bb2be
     inline_script_2.inline_script.py: e38aa9dcd3d87f5ddbdae4cda77f1c4a53dc96707329b962c6fb57dab02bb2be
     validate_data_quality.inline_script.py: be6d611ba6d00b893c4972a940fb6efb57c2515ed49e7f6e5b2c647e4141a601
     validated_config.inline_script.py: 50acfc2a30e7a2f9d35175c1920e86d94f96da7c1e5a019b3fefe15ec6d7266c
@@ -41,6 +53,26 @@ locks:
     'step_2:_parse_csv_to_structured_data.inline_script.py': e4f797b9a2056efd265d36ad25708ab8ffc4cd062b902a19be02159a84f389fd
     'step_3:_filter_data_for_analysis.inline_script.py': 54d9a036211ef33c8e583c96b56cfa131f0488e546ec51703b4a1d85ce546044
     text_message_output.inline_script.py: fd90b24452b88881af6ff245a8e3f7e3e0c4027b19c7d31b8e4c78d99740d29c
+  f/finnew/report_chung_khoan___improved_version___18_8.flow:
+    __flow_hash: 560c79e18e7649790d09c3b525b29d59ea07efd4718584394ac5fb012198c52f
+    check_api_health.inline_script.py: 7bba872853790c1affcef4197739436eb02d00fa876256ca6c07b2a7f4b11e8a
+    csv_report.inline_script.py: 030088ffdf6205071f79257606a2a048823dee3741bcc33d681acf9c2678f421
+    download_last_day's_csv.inline_script.py: c70b59f52cf230ca17cedf315dfa5ca9eb7e97b2cd93a39a9f6b0e85c7d06ef3
+    dump.inline_script.py: 080d8d0249914c710a6c871cde21feea22c1933f978945a8d370d46d0bbbd908
+    email_notification.inline_script.py: 3a3faebec7386d7dc8b54cf7a925cdeb829bbe3fa60c93ede2c41adec58c66a2
+    excel_report.inline_script.py: 6ebe887768c7a9843f1b19c78bbbe622c7cbdb45557ce4d0377cef8b91cbb979
+    fetch_index_fluctuation.inline_script.py: 227d5a53aba892807b92da8982f1794247258cf9bc5cdc5f275fcbf8e21c93b3
+    fetch_index_summary.inline_script.py: b6dac513a13c62874fc096bda7207c06a8d76a1576256e29a96695ed3f3b07ad
+    fetch_interested_stocks.inline_script.py: 1f152c65c94ed8bf9fea5bf565aa5283d84acc7c4383098e9e2460c38af98201
+    fetch_khoi_ngoai.inline_script.py: d91a616eba118c20b86e9d27c4c87d86faabd3444c6d25edb410538b98d790d5
+    fetch_khoi_tu_doanh.inline_script.py: 7693df2304000865a7d1478363f57dbc368c5c9ba4ade46628577632137bc6d0
+    fetch_netforeign_data.inline_script.py: 06511cbe36673e1ca85d29a5c424c4d4ec3049b5e41f2b97b7589603fc2dec82
+    fetch_sectors_data.inline_script.py: 0d571942de9a4fd323e118dcd430d2d68a7e231b3b5b887563d9f7a303cc0649
+    image_generation_based_on_xlsx_report.inline_script.py: 51d26409280a85093c9f4a11f1e66e251cfb73a6b2990bf479af0f1b6e50fdd2
+    inline_script_0.inline_script.py: 2b3bbbef6808429f78b0c74d7c2afad3307e286a8bf3bc5e1e5a5814b490e7c6
+    logs_main_flow.inline_script.py: e38aa9dcd3d87f5ddbdae4cda77f1c4a53dc96707329b962c6fb57dab02bb2be
+    validate_data_quality.inline_script.py: be6d611ba6d00b893c4972a940fb6efb57c2515ed49e7f6e5b2c647e4141a601
+    validated_config.inline_script.py: c030626aad2176b2229e8962533ef81c43ee6be0e8df1bf56e23d7589758e310
   f/finnew/report_chung_khoan___improved_version___27_7.flow:
     __flow_hash: 8d1c3443c3b6e3dd745e2ef256e91fb67d4ca89baf4e9d9c010c63683ee081b4
     check_api_health.inline_script.py: 7bba872853790c1affcef4197739436eb02d00fa876256ca6c07b2a7f4b11e8a
@@ -103,3 +135,15 @@ locks:
     parsing_to_dict.inline_script.py: 52c1104dcd5c58457e183095089165feeb838de345dd7cf8e2bba36505962288
     pdf_template.inline_script.py: d921929a2a6b3521770a8c2cf412dc9d5f8eaae5166a913a1533e65d7960f8bf
     validate.inline_script.py: 2a1138d8d2bc85c82de174036fd5f95eb8e6b7a00f87c259ac51c0d7a2d53488
+  f/rag/beq_v2.flow:
+    __flow_hash: d98edeb87a83002690029edaf215cd02be742ebb3905f52f76bc03f3c6ccc5af
+    inline_script_0.inline_script.py: 62f5f007bb36954b1ba03ac08cc8d41c77389ef87e1ff113b14572f810931f56
+    inline_script_1.inline_script.py: 00e6dc268325b7de51c31f3384afc541e72aa3fe4f4b3cdf3493cd09267a7ab3
+    inline_script_2.inline_script.py: 8eddbd5a739b5f79bee3da845178ec60717b50673068a1fcca8a770e8729781c
+    inline_script_3.inline_script.py: fdf7eeedfbfe6689503aef3983ae8cc84e08986d928e073b5926c9232d699d56
+  f/rag/chunking.flow:
+    __flow_hash: 6227fbd058f3c6ab034854320b0463a86c4eceadb11f1eb3fcdd81b764ede77e
+    inline_script_0.inline_script.py: 11dff65d4e86b6bdf961acde228f3bc69f6b64852c0bc4b51e5b76171046cdc6
+    inline_script_1.inline_script.py: efeb070a607546a5646c9f0dc881eb3d963721a1b12a9815785d1417715823d9
+    inline_script_2.inline_script.py: 45eff9d56d279e67bee0b4410193c1de0439d3e4e4c84ead29a2dc21e737d3be
+    inline_script_3.inline_script.py: 61af5cb7c3271834bd0cdbddeac77f5f4d89ebb1ac641b0cd08183bc86ec9483
