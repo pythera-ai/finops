@@ -1,0 +1,149 @@
+summary: Document Processing Pipeline - Dedicated RAG Flow
+description: >-
+  Specialized flow for document processing with download, chunking, and upload
+  operations in sequence
+value:
+  modules:
+    - id: input_validator
+      value:
+        type: rawscript
+        content: '!inline inline_script_0.inline_script.py'
+        input_transforms:
+          batch_size_insert:
+            type: javascript
+            expr: flow_input.batch_size_insert
+          config:
+            type: javascript
+            expr: flow_input.config
+          session_id:
+            type: javascript
+            expr: flow_input.session_id
+          tenant_name:
+            type: javascript
+            expr: flow_input.tenant_name
+          upload_documents:
+            type: javascript
+            expr: flow_input.upload_documents
+        assets: []
+        lock: '!inline inline_script_0.inline_script.lock'
+        language: python3
+    - id: document_downloader
+      value:
+        type: rawscript
+        content: '!inline inline_script_1.inline_script.py'
+        input_transforms:
+          validated_input:
+            type: javascript
+            expr: results.input_validator
+        assets: []
+        lock: '!inline inline_script_1.inline_script.lock'
+        language: python3
+    - id: document_chunker
+      value:
+        type: rawscript
+        content: '!inline inline_script_2.inline_script.py'
+        input_transforms:
+          downloaded_data:
+            type: javascript
+            expr: results.document_downloader
+        assets: []
+        lock: '!inline inline_script_2.inline_script.lock'
+        language: python3
+    - id: chunk_uploader
+      value:
+        type: rawscript
+        content: '!inline inline_script_3.inline_script.py'
+        input_transforms:
+          chunking_data:
+            type: javascript
+            expr: results.document_chunker
+        assets: []
+        lock: '!inline inline_script_3.inline_script.lock'
+        language: python3
+schema:
+  $schema: 'https://json-schema.org/draft/2020-12/schema'
+  type: object
+  order:
+    - upload_documents
+    - session_id
+    - config
+    - batch_size_insert
+  properties:
+    batch_size_insert:
+      type: integer
+      description: Batch size for chunk insertion operations
+      default: 8
+      maximum: 64
+      minimum: 1
+    config:
+      type: object
+      description: Configuration for document processing services
+      order:
+        - docman_api_base_url
+        - context_api_base_url
+        - chunk_api_base_url
+        - api_key
+        - api_timeout
+        - max_download_retries
+        - max_chunking_retries
+        - max_upload_retries
+      properties:
+        api_key:
+          type: string
+          description: API authentication key
+        api_timeout:
+          type: integer
+          description: API request timeout in seconds
+          default: 30
+          maximum: 120
+          minimum: 10
+        chunk_api_base_url:
+          type: string
+          description: Base URL for chunk storage API
+          default: ''
+        context_api_base_url:
+          type: string
+          description: Base URL for context processing API
+          default: ''
+        docman_api_base_url:
+          type: string
+          description: Base URL for document management API
+          default: ''
+        max_chunking_retries:
+          type: integer
+          description: Maximum retry attempts for chunking
+          default: 2
+          maximum: 5
+          minimum: 1
+        max_download_retries:
+          type: integer
+          description: Maximum retry attempts for downloads
+          default: 3
+          maximum: 5
+          minimum: 1
+        max_upload_retries:
+          type: integer
+          description: Maximum retry attempts for uploads
+          default: 3
+          maximum: 5
+          minimum: 1
+      required:
+        - docman_api_base_url
+        - context_api_base_url
+        - chunk_api_base_url
+    session_id:
+      type: string
+      description: Unique session identifier for document processing
+      default: ''
+      minLength: 1
+    upload_documents:
+      type: array
+      description: List of document IDs to process through the RAG pipeline
+      default: []
+      items:
+        type: string
+      minItems: 1
+  required:
+    - upload_documents
+    - session_id
+    - config
