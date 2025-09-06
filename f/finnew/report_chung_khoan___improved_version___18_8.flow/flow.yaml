@@ -1,4 +1,4 @@
-summary: Report Chung Khoan - IMPROVED VERSION - 15/7
+summary: Report Chung Khoan - IMPROVED VERSION - 18/8
 description: >-
   Enhanced stock report generation with better error handling, validation, and
   monitoring
@@ -22,6 +22,7 @@ value:
           stock_market:
             type: javascript
             expr: flow_input.stock_market
+        assets: []
         lock: '!inline validated_config.inline_script.lock'
         language: python3
     - id: health_check
@@ -33,6 +34,7 @@ value:
           base_url:
             type: javascript
             expr: flow_input.base_url
+        assets: []
         lock: '!inline check_api_health.inline_script.lock'
         language: python3
     - id: fetch_data_with_retry
@@ -56,6 +58,7 @@ value:
                     s3_config:
                       type: javascript
                       expr: results.validate_inputs.s3_config
+                  assets: []
                   lock: '!inline download_last_day''s_csv.inline_script.lock'
                   language: python3
               - id: enhanced_top_sectors
@@ -67,6 +70,7 @@ value:
                     base_url:
                       type: javascript
                       expr: flow_input.base_url
+                  assets: []
                   lock: '!inline fetch_sectors_data.inline_script.lock'
                   language: python3
               - id: enhanced_netforeign
@@ -78,6 +82,7 @@ value:
                     base_url:
                       type: javascript
                       expr: flow_input.base_url
+                  assets: []
                   lock: '!inline fetch_netforeign_data.inline_script.lock'
                   language: python3
               - id: enhanced_interested_stocks
@@ -89,6 +94,7 @@ value:
                     base_url:
                       type: javascript
                       expr: flow_input.base_url
+                  assets: []
                   lock: '!inline fetch_interested_stocks.inline_script.lock'
                   language: python3
               - id: enhanced_khoi_tu_doanh
@@ -103,6 +109,7 @@ value:
                     stock_market:
                       type: javascript
                       expr: results.validate_inputs.stock_market
+                  assets: []
                   lock: '!inline fetch_khoi_tu_doanh.inline_script.lock'
                   language: python3
               - id: enhanced_khoi_ngoai
@@ -117,6 +124,7 @@ value:
                     stock_market:
                       type: javascript
                       expr: results.validate_inputs.stock_market
+                  assets: []
                   lock: '!inline fetch_khoi_ngoai.inline_script.lock'
                   language: python3
               - id: enhanced_index_summary
@@ -128,6 +136,7 @@ value:
                     base_url:
                       type: javascript
                       expr: flow_input.base_url
+                  assets: []
                   lock: '!inline fetch_index_summary.inline_script.lock'
                   language: python3
               - id: enhanced_index_fluctuation
@@ -142,6 +151,7 @@ value:
                     stock_market:
                       type: javascript
                       expr: results.validate_inputs.stock_market
+                  assets: []
                   lock: '!inline fetch_index_fluctuation.inline_script.lock'
                   language: python3
             expr: >-
@@ -159,6 +169,7 @@ value:
                     health_status:
                       type: javascript
                       expr: results.health_check
+                  assets: []
                   lock: '!inline inline_script_0.inline_script.lock'
                   language: python3
             expr: >-
@@ -186,6 +197,7 @@ value:
           last_day_data:
             type: javascript
             expr: results.download_last_day_csv
+        assets: []
         lock: '!inline validate_data_quality.inline_script.lock'
         language: python3
     - id: conditional_report_generation
@@ -218,6 +230,9 @@ value:
                     s3_region:
                       type: javascript
                       expr: results.validate_inputs.s3_config.region
+                  assets:
+                    - kind: s3object
+                      path: ''
                   lock: '!inline csv_report.inline_script.lock'
                   language: python3
             expr: >-
@@ -236,6 +251,7 @@ value:
                     merged_data:
                       type: javascript
                       expr: results.enhanced_merge_data
+                  assets: []
                   lock: '!inline dump.inline_script.lock'
                   language: python3
             expr: >-
@@ -269,16 +285,77 @@ value:
                     s3_region:
                       type: javascript
                       expr: results.validate_inputs.s3_config.region
+                  assets:
+                    - kind: s3object
+                      path: ''
                   lock: '!inline excel_report.inline_script.lock'
                   language: python3
             expr: 'false'
             parallel: true
             skip_failure: false
         parallel: false
-    - id: enhanced_email_notification
+    - id: convert_excel_to_png
+      summary: Image generation based on XLSX report
+      value:
+        type: rawscript
+        content: '!inline image_generation_based_on_xlsx_report.inline_script.py'
+        input_transforms:
+          aws_access_key_id:
+            type: javascript
+            expr: flow_input.aws_access_key_id
+          aws_secret_access_key:
+            type: javascript
+            expr: flow_input.aws_secret_access_key
+          data:
+            type: javascript
+            expr: results.enhanced_merge_data
+          s3_bucket_name:
+            type: javascript
+            expr: results.validate_inputs.s3_config.bucket
+          s3_html_key:
+            type: javascript
+            expr: results.validate_inputs.s3_config.html_key
+          s3_region:
+            type: static
+            value: ap-southeast-2
+        assets:
+          - kind: s3object
+            path: ''
+        lock: '!inline image_generation_based_on_xlsx_report.inline_script.lock'
+        language: python3
+    - id: convert_html_to_png
       value:
         type: rawscript
         content: '!inline inline_script_0.inline_script.py'
+        input_transforms:
+          aws_access_key_id:
+            type: javascript
+            expr: flow_input.aws_access_key_id
+          aws_secret_access_key:
+            type: javascript
+            expr: flow_input.aws_secret_access_key
+          s3_bucket_name:
+            type: javascript
+            expr: results.validate_inputs.s3_config.bucket
+          s3_html_key:
+            type: javascript
+            expr: results.validate_inputs.s3_config.html_key
+          s3_png_key:
+            type: javascript
+            expr: results.validate_inputs.s3_config.png_key
+          s3_region:
+            type: javascript
+            expr: results.validate_inputs.s3_config.region
+        assets:
+          - kind: s3object
+            path: ''
+        lock: '!inline inline_script_0.inline_script.lock'
+        language: python3
+    - id: enhanced_email_notification
+      summary: Email Notification
+      value:
+        type: rawscript
+        content: '!inline email_notification.inline_script.py'
         input_transforms:
           aws_access_key_id:
             type: javascript
@@ -292,30 +369,42 @@ value:
           cc_emails:
             type: javascript
             expr: flow_input.cc_emails || ""
-          excel_result:
-            type: javascript
-            expr: results.excel_generator
           gmail_password:
             type: javascript
             expr: flow_input.smtp_password
           gmail_user:
             type: javascript
             expr: flow_input.smtp_user
+          image_result:
+            type: javascript
+            expr: results.convert_html_to_png
           merge_data:
             type: javascript
             expr: results.enhanced_merge_data
           s3_region:
             type: javascript
-            expr: flow_input.s3_region
+            expr: results.validate_inputs.s3_config.region
           to_emails:
             type: javascript
             expr: flow_input.to_emails
-        lock: '!inline inline_script_0.inline_script.lock'
+          vpbank_header_bucket:
+            type: javascript
+            expr: results.validate_inputs.s3_config.bucket
+          vpbank_header_key:
+            type: javascript
+            expr: flow_input.header_image
+        assets:
+          - access_type: null
+            alt_access_type: null
+            kind: s3object
+            path: ''
+        lock: '!inline email_notification.inline_script.lock'
         language: python3
     - id: final_status_report
+      summary: Logs main flow
       value:
         type: rawscript
-        content: '!inline inline_script_1.inline_script.py'
+        content: '!inline logs_main_flow.inline_script.py'
         input_transforms:
           health_check_result:
             type: javascript
@@ -331,7 +420,8 @@ value:
           validation_result:
             type: javascript
             expr: results.validate_inputs
-        lock: '!inline inline_script_1.inline_script.lock'
+        assets: []
+        lock: '!inline logs_main_flow.inline_script.lock'
         language: python3
 schema:
   $schema: 'https://json-schema.org/draft/2020-12/schema'
@@ -351,6 +441,7 @@ schema:
     - email_provider
     - smtp_user
     - smtp_password
+    - header_image
   properties:
     aws_access_key_id:
       type: string
@@ -392,6 +483,10 @@ schema:
       nullable: false
       pattern: '^[\w-+.]+@([\w-]+\.)+[\w-]{2,63}$'
       placeholder: hungnguyen131002@gmail.com
+    header_image:
+      type: string
+      description: ''
+      default: ''
     s3_bucket_name:
       type: string
       description: S3 bucket name for storing reports

@@ -319,16 +319,14 @@ value:
             type: static
             value: ap-southeast-2
         assets:
-          - access_type: null
-            alt_access_type: null
-            kind: s3object
+          - kind: s3object
             path: ''
         lock: '!inline image_generation_based_on_xlsx_report.inline_script.lock'
         language: python3
     - id: convert_html_to_png
       value:
         type: rawscript
-        content: '!inline inline_script_1.inline_script.py'
+        content: '!inline inline_script_0.inline_script.py'
         input_transforms:
           aws_access_key_id:
             type: javascript
@@ -349,11 +347,9 @@ value:
             type: javascript
             expr: results.validate_inputs.s3_config.region
         assets:
-          - access_type: null
-            alt_access_type: null
-            kind: s3object
+          - kind: s3object
             path: ''
-        lock: '!inline inline_script_1.inline_script.lock'
+        lock: '!inline inline_script_0.inline_script.lock'
         language: python3
     - id: enhanced_email_notification
       summary: Email Notification
@@ -392,9 +388,7 @@ value:
             type: javascript
             expr: flow_input.to_emails
         assets:
-          - access_type: null
-            alt_access_type: null
-            kind: s3object
+          - kind: s3object
             path: ''
         lock: '!inline email_notification.inline_script.lock'
         language: python3

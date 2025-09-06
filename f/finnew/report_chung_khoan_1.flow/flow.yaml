@@ -37,9 +37,9 @@ value:
               - id: e
                 value:
                   type: rawscript
-                  content: '!inline inline_script_1.inline_script.py'
+                  content: '!inline inline_script_0.inline_script.py'
                   input_transforms: {}
-                  lock: '!inline inline_script_1.inline_script.lock'
+                  lock: '!inline inline_script_0.inline_script.lock'
                   language: python3
             expr: 'false'
             parallel: true
@@ -49,12 +49,12 @@ value:
               - id: f
                 value:
                   type: rawscript
-                  content: '!inline inline_script_2.inline_script.py'
+                  content: '!inline inline_script_0.inline_script.py'
                   input_transforms:
                     stock_market:
                       type: static
                       value: hnx
-                  lock: '!inline inline_script_2.inline_script.lock'
+                  lock: '!inline inline_script_0.inline_script.lock'
                   language: python3
             expr: 'false'
             parallel: true
@@ -95,12 +95,12 @@ value:
               - id: i
                 value:
                   type: rawscript
-                  content: '!inline inline_script_3.inline_script.py'
+                  content: '!inline inline_script_0.inline_script.py'
                   input_transforms:
                     stock_market:
                       type: static
                       value: ''
-                  lock: '!inline inline_script_3.inline_script.lock'
+                  lock: '!inline inline_script_0.inline_script.lock'
                   language: python3
                 continue_on_error: false
             expr: 'false'
